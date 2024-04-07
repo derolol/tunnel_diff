@@ -1,0 +1,57 @@
+data:
+  target: dataset.data_module.DataModule
+  params:
+    # Path to training set configuration file.
+    train_config: config/dataset/exposure_errors_b16_train.yaml
+    # Path to validation set configuration file.
+    val_config: config/dataset/exposure_errors_val.yaml
+
+model:
+  target: model.zero_dce_plusplus.zero_dce_plusplus_module.ZeroDCEPlusPlusModule
+  checkpoint: train_viz/zero_dce_plusplus_exposure_errors/version_1/checkpoints/step=7000.ckpt
+  params:
+    lr: 0.001 # 0.0001
+    weight_decay: 0.0001
+    scale_factor: 1
+
+lightning:
+  seed: 231
+  
+  trainer:
+    accelerator: cuda
+    precision: 32
+    strategy: ddp_find_unused_parameters_true
+    # Indices of GPUs used for training.
+    devices: 4
+    # Path to save logs and checkpoints.
+    default_root_dir: outputs
+    # Max number of training steps (batches).
+    max_steps: 15001
+    # Validation frequency in terms of training steps.
+    val_check_interval: 100
+    check_val_every_n_epoch:
+    log_every_n_steps: 50
+    # Accumulate gradients from multiple batches so as to increase batch size.
+    accumulate_grad_batches: 1
+    gradient_clip_val: 0.1
+  
+  logger:
+    target: logger.tensorboard_logger.TensorBoardLogger
+    params:
+      save_dir: test_viz
+      name: zero_dce_plusplus_exposure_errors
+  
+  callbacks:
+    - target: callback.image_logger.ImageLogger
+      params:
+        # Log frequency of image logger.
+        log_every_n_steps: 1
+        max_images_each_step: 4
+        log_images_kwargs: ~
+
+    - target: callback.model_checkpoint.ModelCheckpoint
+      params:
+        # Frequency of saving checkpoints.
+        every_n_train_steps: 1000
+        save_top_k: -1
+        filename: "{step}"

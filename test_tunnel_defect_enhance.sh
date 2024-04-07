@@ -1,0 +1,12 @@
+# 'segformer_tunnel_defect'
+# 'segformer_tunnel_defect_iat'
+# 'segformer_tunnel_defect_mirnetv2'
+# 'segformer_tunnel_defect_retinex_net'
+# 'segformer_tunnel_defect_tunnel_diff_200'
+# 'segformer_tunnel_defect_tunnel_diff_300'
+# 'segformer_tunnel_defect_tunnel_diff_400'
+# 'segformer_tunnel_defect_tunnel_diff_500'
+# 'segformer_tunnel_defect_uformer'
+# 'segformer_tunnel_defect_zero_dce'
+# 'segformer_tunnel_defect_zero_dce_plusplus'
+CUDA_VISIBLE_DEVICES=0 python test_tunnel_defect_enhance.py --config config/test_tunnel_seg/test_segformer_tunnel_defect_zero_dce_plusplus.yaml

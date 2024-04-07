@@ -1,0 +1,10 @@
+# Output visualize
+/train_viz
+/test_viz
+/train_seg_viz
+/test_seg_viz
+
+# Training weight
+/weight
+
+__pycache__

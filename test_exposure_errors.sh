@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=3 python test_exposure_errors.py --config config/test_exposure_errors/test_tunnel_diff_exposure_errors.yaml

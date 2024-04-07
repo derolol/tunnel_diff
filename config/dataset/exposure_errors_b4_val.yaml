@@ -1,0 +1,22 @@
+dataset:
+  target: dataset.exposure_errors.ExposureErrorsDataset
+  params:
+    # Path to the file list.
+    file_list: /home/datasets/exposure_errors/val/val.txt
+    hq_format: jpg
+    lq_format: JPG
+    ev: ['0', 'N1.5', 'N1', 'P1.5', 'P1']
+    
+    gray_style: False
+    brightness_enhance: False
+    out_size: 512
+    crop_type: center
+    use_hflip: False
+    noise_range: [0, 15]
+    jpeg_range: [30, 100]
+    
+data_loader:
+  batch_size: 4
+  shuffle: false
+  num_workers: 16
+  drop_last: false

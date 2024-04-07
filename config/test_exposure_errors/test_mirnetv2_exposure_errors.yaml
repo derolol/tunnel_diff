@@ -1,0 +1,59 @@
+data:
+  target: dataset.data_module.DataModule
+  params:
+    # Path to training set configuration file.
+    train_config: config/dataset/exposure_errors_b2_train.yaml
+    # Path to validation set configuration file.
+    val_config: config/dataset/exposure_errors_val.yaml
+
+model:
+  target: model.mirnetv2.mirnetv2_module.MIRNetV2Module
+  checkpoint: train_viz/mirnetv2_exposure_errors/version_4/checkpoints/step=18000.ckpt
+  params:
+    lr: 0.0002
+    betas: [0.9, 0.999]
+    periods: [7500, 17000] # src [46000, 104000]       
+    restart_weights: [1, 1]
+    eta_mins: [0.0003, 0.000001]
+
+lightning:
+  seed: 231
+  
+  trainer:
+    accelerator: cuda
+    precision: 32
+    strategy: ddp_find_unused_parameters_true
+    # Indices of GPUs used for training.
+    devices: 4
+    # Path to save logs and checkpoints.
+    default_root_dir: outputs
+    # Max number of training steps (batches).
+    max_steps: 25001 # src 150000
+    # Validation frequency in terms of training steps.
+    val_check_interval: 500
+    check_val_every_n_epoch:
+    log_every_n_steps: 50
+    # Accumulate gradients from multiple batches so as to increase batch size.
+    accumulate_grad_batches: 4
+    gradient_clip_val: 0.01
+  
+  logger:
+    target: logger.tensorboard_logger.TensorBoardLogger
+    params:
+      save_dir: test_viz
+      name: mirnetv2_exposure_errors
+  
+  callbacks:
+    - target: callback.image_logger.ImageLogger
+      params:
+        # Log frequency of image logger.
+        log_every_n_steps: 1
+        max_images_each_step: 4
+        log_images_kwargs: ~
+
+    - target: callback.model_checkpoint.ModelCheckpoint
+      params:
+        # Frequency of saving checkpoints.
+        every_n_train_steps: 1000
+        save_top_k: -1
+        filename: "{step}"

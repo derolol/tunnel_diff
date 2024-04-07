@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=7 python test_tunnel_defect.py --config config/test_tunnel_defect/test_tunnel_diff_tunnel_defect.yaml

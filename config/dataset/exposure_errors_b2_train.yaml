@@ -1,0 +1,26 @@
+dataset:
+  target: dataset.exposure_errors.ExposureErrorsDataset
+  params:
+    # Path to the file list.
+    file_list: /home/datasets/exposure_errors/train/train.txt
+    hq_format: jpg
+    lq_format: JPG
+    ev: ['0', 'N1.5', 'N1', 'P1.5', 'P1']
+    
+    gray_style: True
+    brightness_enhance: True
+    out_size: 512
+    crop_type: random
+    use_hflip: False
+    noise_range: [0, 15]
+    jpeg_range: [30, 100]
+    
+
+data_loader:
+  batch_size: 2
+  shuffle: true
+  num_workers: 16
+  drop_last: true
+
+batch_transform:
+  target: dataset.batch_transform.IdentityBatchTransform
