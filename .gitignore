@@ -3,6 +3,7 @@
 /test_viz
 /train_seg_viz
 /test_seg_viz
+/font
 
 # Training weight
 /weight
